@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>源泉徴収 かんたん計算</title>
+<style>
+  :root {
+    --ink: #14202b;
+    --navy: #1a3a5c;
+    --navy-soft: #2d5580;
+    --paper: #f5f2ea;
+    --card: #ffffff;
+    --line: #d9d3c4;
+    --muted: #6b7280;
+    --accent: #c8a34e;
+    --accent-soft: #f0e6cc;
+    --shadow: 0 2px 20px rgba(26, 58, 92, 0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+  .wrap { width: 100%; max-width: 460px; }
+
+  header { margin-bottom: 20px; }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: var(--navy-soft);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 25px;
+    color: var(--navy);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+  }
+  .sub { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .input-row {
+    display: flex;
+    align-items: stretch;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.15s;
+    background: #fff;
+  }
+  .input-row:focus-within { border-color: var(--navy-soft); }
+  .input-row .yen {
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    background: var(--paper);
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 16px;
+    border-right: 1px solid var(--line);
+  }
+  input[type="text"] {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 14px 14px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    text-align: right;
+    letter-spacing: 0.02em;
+    width: 100%;
+    font-family: inherit;
+  }
+  .input-row .unit {
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .tax-toggle {
+    margin-top: 14px;
+    display: flex;
+    gap: 8px;
+  }
+  .tax-toggle button {
+    flex: 1;
+    padding: 9px;
+    border: 1.5px solid var(--line);
+    background: #fff;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .tax-toggle button.on {
+    border-color: var(--navy);
+    background: var(--navy);
+    color: #fff;
+  }
+
+  .results { margin-top: 22px; }
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 13px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .result-row:last-child { border-bottom: none; }
+  .result-row .rlabel { font-size: 14px; color: var(--muted); }
+  .result-row .rlabel small { display: block; font-size: 11px; color: #9aa0a8; margin-top: 1px; }
+  .result-row .rval {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .result-row.genzen .rval { color: #b04a3f; }
+  .result-row.total {
+    margin-top: 4px;
+    padding-top: 16px;
+    border-top: 2px solid var(--navy);
+    border-bottom: none;
+  }
+  .result-row.total .rlabel { color: var(--navy); font-weight: 800; font-size: 15px; }
+  .result-row.total .rval { color: var(--navy); font-size: 24px; font-weight: 800; }
+
+  .rate-note {
+    margin-top: 14px;
+    font-size: 11.5px;
+    color: var(--muted);
+    background: var(--paper);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .rate-note b { color: var(--navy-soft); }
+
+  .cta {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .cta strong { color: var(--ink); font-weight: 700; }
+
+  footer {
+    margin-top: 18px;
+    font-size: 11px;
+    color: #9aa0a8;
+    text-align: center;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">FREELANCE TOOL</div>
+    <h1>源泉徴収 かんたん計算</h1>
+    <p class="sub">報酬額を入れるだけ。源泉徴収額と手取りがすぐ出ます。</p>
+  </header>
+
+  <div class="card">
+    <label for="amount">報酬額</label>
+    <div class="input-row">
+      <span class="yen">¥</span>
+      <input type="text" id="amount" inputmode="numeric" placeholder="0" autocomplete="off">
+      <span class="unit">円</span>
+    </div>
+
+    <div class="tax-toggle" id="taxToggle">
+      <button data-tax="exclusive" class="on">入力は税抜</button>
+      <button data-tax="inclusive">入力は税込</button>
+    </div>
+
+    <div class="results" id="results" hidden>
+      <div class="result-row">
+        <span class="rlabel">報酬（税抜）</span>
+        <span class="rval" id="rBase">¥0</span>
+      </div>
+      <div class="result-row">
+        <span class="rlabel">消費税（10%）</span>
+        <span class="rval" id="rTax">¥0</span>
+      </div>
+      <div class="result-row genzen">
+        <span class="rlabel">源泉徴収額<small id="rRate">10.21%</small></span>
+        <span class="rval" id="rGenzen">−¥0</span>
+      </div>
+      <div class="result-row total">
+        <span class="rlabel">請求時の受取額（手取り）</span>
+        <span class="rval" id="rNet">¥0</span>
+      </div>
+    </div>
+
+    <div class="rate-note">
+      源泉徴収は<b>税抜の報酬額</b>を基準に計算します（請求書で消費税を分けて記載している場合）。100万円までは<b>10.21%</b>、超えた分は<b>20.42%</b>。
+    </div>
+
+    <div class="cta">
+      請求書そのものを、源泉徴収まで<strong>自動計算</strong>して作るなら —<br>
+      プロフィールのツールをどうぞ。
+    </div>
+  </div>
+
+  <footer>
+    ※ 士業など一部の報酬は計算方法が異なります。目安としてご利用ください。
+  </footer>
+</div>
+
+<script>
+  const input = document.getElementById('amount');
+  const toggle = document.getElementById('taxToggle');
+  const results = document.getElementById('results');
+  const rBase = document.getElementById('rBase');
+  const rTax = document.getElementById('rTax');
+  const rGenzen = document.getElementById('rGenzen');
+  const rRate = document.getElementById('rRate');
+  const rNet = document.getElementById('rNet');
+
+  let taxMode = 'exclusive';
+
+  const yen = n => '¥' + Math.round(n).toLocaleString('ja-JP');
+
+  function parseNum(str) {
+    const n = parseInt(str.replace(/[^0-9]/g, ''), 10);
+    return isNaN(n) ? 0 : n;
+  }
+
+  function calc() {
+    const raw = parseNum(input.value);
+    if (raw <= 0) { results.hidden = true; return; }
+
+    // base = 税抜報酬
+    const base = taxMode === 'inclusive' ? Math.floor(raw / 1.1) : raw;
+    const tax = Math.floor(base * 0.1);
+
+    // 源泉徴収: 税抜報酬に対して。100万以下=10.21%、超過分=20.42%
+    let genzen;
+    if (base <= 1000000) {
+      genzen = Math.floor(base * 0.1021);
+      rRate.textContent = '10.21%';
+    } else {
+      genzen = Math.floor(1000000 * 0.1021 + (base - 1000000) * 0.2042);
+      rRate.textContent = '100万まで10.21% / 超過分20.42%';
+    }
+
+    const net = base + tax - genzen;
+
+    rBase.textContent = yen(base);
+    rTax.textContent = yen(tax);
+    rGenzen.textContent = '−' + yen(genzen);
+    rNet.textContent = yen(net);
+    results.hidden = false;
+  }
+
+  function formatInput() {
+    const n = parseNum(input.value);
+    input.value = n > 0 ? n.toLocaleString('ja-JP') : '';
+  }
+
+  input.addEventListener('input', () => { formatInput(); calc(); });
+
+  toggle.addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    taxMode = btn.dataset.tax;
+    [...toggle.children].forEach(b => b.classList.toggle('on', b === btn));
+    calc();
+  });
+</script>
+</body>
+</html>
