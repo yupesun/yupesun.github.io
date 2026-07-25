@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ゆぺすん｜副業でつくる業務効率化ツール</title>
+<style>
+  :root {
+    --ink: #14202b;
+    --navy: #1a3a5c;
+    --navy-soft: #2d5580;
+    --paper: #f5f2ea;
+    --card: #ffffff;
+    --line: #e0dacb;
+    --muted: #6b7280;
+    --accent: #c8a34e;
+    --accent-soft: #f0e6cc;
+    --free: #2f7a5a;
+    --free-soft: #e3f0e9;
+    --shadow: 0 2px 20px rgba(26, 58, 92, 0.08);
+    --shadow-hover: 0 8px 30px rgba(26, 58, 92, 0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    min-height: 100vh;
+    padding: 40px 16px 56px;
+  }
+  .wrap { width: 100%; max-width: 560px; margin: 0 auto; }
+
+  /* ---- hero ---- */
+  .hero { margin-bottom: 36px; }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--navy-soft);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .hero h1 {
+    font-size: 27px;
+    color: var(--navy);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+    margin-bottom: 14px;
+  }
+  .hero p {
+    font-size: 14.5px;
+    color: var(--ink);
+    line-height: 1.85;
+  }
+  .hero .small {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+
+  /* ---- section ---- */
+  .section { margin-bottom: 34px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--navy);
+  }
+  .section-head h2 {
+    font-size: 17px;
+    color: var(--navy);
+    font-weight: 800;
+  }
+  .section-head .note { font-size: 12px; color: var(--muted); }
+
+  /* ---- tool / product card ---- */
+  .item {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 20px 22px;
+    margin-bottom: 14px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .item:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .item:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  .item-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 7px;
+  }
+  .badge {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    padding: 3px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .badge.free { background: var(--free-soft); color: var(--free); }
+  .badge.paid { background: var(--accent-soft); color: #977221; }
+  .item h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .item p {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .item .go {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy-soft);
+  }
+  .item .go::after { content: " →"; }
+
+  /* ---- bridge line ---- */
+  .bridge {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    margin: 4px 0 14px;
+  }
+
+  /* ---- links row ---- */
+  .links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .links a {
+    flex: 1;
+    min-width: 130px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--navy);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .links a:hover { background: #fff; border-color: var(--navy-soft); }
+
+  footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 11.5px;
+    color: #9aa0a8;
+    line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">SIDE PROJECT</div>
+    <h1>未経験の会社員が、<br>副業でツールを作っています。</h1>
+    <p>
+      ゆぺすんと申します。会社員をしながら、プログラミング未経験からAIと一緒に、
+      個人事業主・フリーランスの方に向けた業務効率化ツールを作っています。
+    </p>
+    <p class="small">
+      まずは無料のツールから、気軽に触ってみてください。
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>無料ツール</h2>
+      <span class="note">登録不要・その場で使えます</span>
+    </div>
+
+    <a class="item" href="./genzen.html">
+      <div class="item-top">
+        <span class="badge free">無料</span>
+        <h3>源泉徴収 かんたん計算</h3>
+      </div>
+      <p>報酬額を入れるだけで、源泉徴収額と手取りがすぐ出ます。税抜・税込の切り替えにも対応。</p>
+      <span class="go">使ってみる</span>
+    </a>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>ココナラで出品中</h2>
+      <span class="note">もっと本格的に使うなら</span>
+    </div>
+
+    <p class="bridge">「計算だけでなく、請求書そのものを毎回作るのが手間」という方へ。</p>
+
+    <a class="item" href="https://coconala.com/users/2089613" target="_blank" rel="noopener">
+      <div class="item-top">
+        <span class="badge paid">出品中</span>
+        <h3>請求書ジェネレーター / シフト管理ツール</h3>
+      </div>
+      <p>報酬額を入れれば消費税も源泉徴収も自動計算し、そのままPDF保存できる請求書ツール。シフト希望の収集・集計を自動化する仕組みも出品しています。</p>
+      <span class="go">ココナラのページを見る</span>
+    </a>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>発信しています</h2>
+    </div>
+    <div class="links">
+      <a href="https://coconala.com/users/2089613" target="_blank" rel="noopener">ココナラ ブログ</a>
+      <a href="https://x.com/Yupesuncoconala" target="_blank" rel="noopener">X（旧Twitter）</a>
+    </div>
+  </div>
+
+  <footer>
+    副業でツールを作りながら、その過程や試行錯誤を発信しています。<br>
+    ※ 各ツールは目安としてご利用ください。
+  </footer>
+
+</div>
+</body>
+</html>
